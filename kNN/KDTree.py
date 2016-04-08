@@ -1,63 +1,64 @@
-from __future__ import print_function
+# -*- coding: utf-8 -*-
+import numpy
 
-import operator
-import math
-from collections import deque
-from functools import wraps
+def kdtree(data leafsize = 10):
+	
+	ndim = data.shape[0]
+	ndata = data.shape[1]
 
-COMPARE_CHILD = {
-	0: (operator.le,operator.sub),
-	1: (operator.ge,operator.add),
-}
+# 查找边界超矩形
+	hrect = numpy.zeros((2,data.shape[0]))
+	hrect[0,:] = data.min(axis = 1)
+	hrect[1,:] = data.max(axis = 1)
 
-class Node(object):
-	def __init__(self,data=None,left=None,right=None):
-		self.data = data
-		self.left = left
-		self.right = right
+# 构造kd树的根节点
+	idx = numpy.argsort(data[0,:],kind = 'mergesort')
+	data[:,:] = data[:,idx]
+	splitval = data[0,ndata/2]
 
-	@property
-	def is_leaf(self):
-		return (not self.data) or \
-				(all(not bool(c) for c, p in self.children))
+	left_hrect = hrect.copy()
+	right_hrect = hrect.copy()
+	left_hrect[1,0] = splitval
+	right_hrect[0,0] = splitval
 
-	def preorder(self):
-		if not self:
-			return
+	tree = [(None,None,left_hrect,right_hrect,None,None)]
+
+	stack = [(data[:,:ndata/2],idx[:ndata/2],1,0,True),
+			(data[:,ndata/2:],idx[ndata/2:],1,0,False)]
+
+	while stack:
 		
-		yield self
+		data,didx,depth,parent,leftbranch = stack.pop()
+		ndata = data.shape[1]
+		nodeptr = len(tree)
 
-		if self.left:
-			for x in self.left.preorder():
-				yield x
+		_didx,_data,_left_hrect,_right_hrect,left,right = tree[parent]
 
-		if self.right:
-			for x in self.right.preorder():
-				yield x
+		tree[parent]  = (_didx,_data,_left_hrect,_right_hrect,nodeptr,right) if leftbranch else (_didx,_data,_left_hrect,_right_hrect,left,nodeptr)
 
-	def inorder(self):
-		if not self:
-			return
+		if ndata <= leafsize:
+			_didx = didx.copy()
+			_data = data.copy()
+			leaf = (_didx,_data,None,None,0,0)
+			tree.append(leaf)
 
-			if self.left:
-				for x in self.left.inorder():
-					yield x
+		else:
+			splitdim = depth % ndim
+			idx = argsort(data[splitdim,:],kind = "mergesort")
+			data[:,:] = data[:,idx]
+			didx = didx[idx]
+			nodeptr = len(tree)
+			stack.append((data[:,:ndata/2],didx[:ndata/2],depth+1,nodeptr,True))
+			stack.append((data[:,ndata/2:],didx[ndata/2:],depth+1,nodeptr,False))
+			splitval = data[splitdim,ndata/2]
+			if leftbranch:
+				left_hrect = _left_hrect.copy()
+				right_hrect = _lrft_hrect.copy()
+			else:
+				left_hrect = right_hrect.copy()
+				right_hrect = right_hrect.copy()
+			left_hrect[1,splitdim] = splitval
+			right_hrect[0,splitdim] = splitval
+			tree.append((None,None,left_hrect,right_hrect,None,None))
 
-			yield self
-
-			if self.right:
-				for x in self.right.inorder():
-					yield x
-	def postorder(self):
-		if not self:
-			return
-		if self.left:
-			for x in self.left.postorder():
-				yield x
-		if self.right:
-			for x in self.right.postorder:
-				yield x
-		yield self
-
-		
-				
+	return tree
