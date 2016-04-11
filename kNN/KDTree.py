@@ -3,16 +3,16 @@ import numpy
 
 def kdtree(data leafsize = 10):
 	
-	ndim = data.shape[0]
-	ndata = data.shape[1]
+	ndim = data.shape[0] #数据的行数
+	ndata = data.shape[1] #列数
 
 # 查找边界超矩形
 	hrect = numpy.zeros((2,data.shape[0]))
-	hrect[0,:] = data.min(axis = 1)
-	hrect[1,:] = data.max(axis = 1)
+	hrect[0,:] = data.min(axis = 1) # 将hrect的第一行赋data矩阵中每行的最小元素
+	hrect[1,:] = data.max(axis = 1) # 将hrect的第二行赋data矩阵中每行的最大元素
 
 # 构造kd树的根节点
-	idx = numpy.argsort(data[0,:],kind = 'mergesort')
+	idx = numpy.argsort(data[0,:],kind = 'mergesort') # idx为data第一行数据排序后结果的下标
 	data[:,:] = data[:,idx]
 	splitval = data[0,ndata/2]
 
@@ -53,7 +53,7 @@ def kdtree(data leafsize = 10):
 			splitval = data[splitdim,ndata/2]
 			if leftbranch:
 				left_hrect = _left_hrect.copy()
-				right_hrect = _lrft_hrect.copy()
+				right_hrect = _left_hrect.copy()
 			else:
 				left_hrect = right_hrect.copy()
 				right_hrect = right_hrect.copy()
