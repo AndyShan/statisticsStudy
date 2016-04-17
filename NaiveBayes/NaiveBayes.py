@@ -19,14 +19,22 @@ def createVocabList(dataSet):
 		vocabSet = vocabSet | set(document)
 	return list(vocabSet)
 
-"""将单词转为向量"""
+"""将单词转为向量(词集模型)"""
 def setOfWord2Vec(vocabList, inputSet):
 	returnVec = [0]*len(vocabList)
 	for word in inputSet:
 		if word in vocabList:
-			returnVec[vocabList.index(word)] = 1
+			returnVec[vocabList.index(word)] = 1# 若有则为1
 		# else:
 		# 	print "the word: %s is not in my Vocabulary!"% word
+	return returnVec
+
+"""将单词转为向量(词袋模型)"""
+def bagofWord2Vec(vocabList,inputSet):
+	returnVec = [0] * len(vocabList)
+	for word in inputSet:
+		if word in vocabList:
+			returnVec[vocabList.index(word)] += 1#若有则+1
 	return returnVec
 
 """朴素贝叶斯分类器训练函数"""
