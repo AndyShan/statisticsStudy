@@ -91,20 +91,20 @@ def lwl(queryPoint,xArr,yArr,k):
     ws = xTx.I * (xMat.T * (weights * yMat))
     return queryPoint * ws
 
-    def lwlrTest(queryArray,xArr,yArr,k):
-        """
-        利用局部加权回归拟合曲线
-        :param queryArray:
-        :param xArr:
-        :param yArr:
-        :param k:
-        :return: 通过局部加权回归求出的拟合曲线
-        """
-        m = shape(queryArray)[0]
-        yHat = zeros(m)
-        for i in range(m):
-            yHat[i] = lwl(queryArray[i],xArr,yArr,k)
-        return yHat
+def lwlrTest(queryArray,xArr,yArr,k):
+    """
+    利用局部加权回归拟合曲线
+    :param queryArray:
+    :param xArr:
+    :param yArr:
+    :param k:
+    :return: 通过局部加权回归求出的拟合曲线
+    """
+    m = shape(queryArray)[0]
+    yHat = zeros(m)
+    for i in range(m):
+        yHat[i] = lwl(queryArray[i],xArr,yArr,k)
+    return yHat
 
 def lwlrTestPlot(xArr,yArr,k):
     """
@@ -129,4 +129,3 @@ def lwlrTestPlot(xArr,yArr,k):
 if __name__ == '__main__':
     xArr,yArr = loadFile("")
     lwlrTestPlot(xArr,yArr,0.1)
-    # print lwl(1,xArr,yArr,1)
