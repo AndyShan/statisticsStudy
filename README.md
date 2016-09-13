@@ -4,7 +4,8 @@
 [k近邻算法(kNN)以及kd树和kd树查找](https://github.com/AndyShan/statisticsStudy/tree/master/kNN)<br/>
 [朴素贝叶斯](https://github.com/AndyShan/statisticsStudy/tree/master/NaiveBayes)<br/>
 [logistic回归](https://github.com/AndyShan/statisticsStudy/tree/master/logistic_regression)<br/>
-[支持向量机(SVM)](https://github.com/AndyShan/statisticsStudy/tree/master/svm)
+[支持向量机(SVM)](https://github.com/AndyShan/statisticsStudy/tree/master/svm)<br/>
+[k均值聚类(k_means)](https://github.com/AndyShan/statisticsStudy/tree/master/k_means)
 # 实例
 [k近邻改进约会网站配对效果](https://github.com/AndyShan/statisticsStudy/tree/master/demo/datingTest)<br/>
 [k近邻识别手写数字](https://github.com/AndyShan/statisticsStudy/tree/master/demo/handwritingDigitTest)<br/>
