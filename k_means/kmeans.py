@@ -62,7 +62,34 @@ def k_means(data_set, k, dist_meas = dist_eclud, create_cent = rand_cent):
             centroids[cent,:] = mean(pts_in_clust, axis = 0)
     return centroids, cluster_assment
 
-datamat = mat(loadDataSet("testSet1.txt"))
-cen, clu = k_means(datamat, 4)
+
+def bi_kmeans(data_set, k, dist_meas = dist_eclud):
+    m = shape(data_set)[0]
+    cluster_assment = mat(zeros((m,2)))
+    centroid0 = mean(data_set,axis=0).tolist()[0]
+    cent_list = [centroid0]
+    for j in range(m):
+        cluster_assment[j,1] = dist_meas(mat(centroid0),data_set[j,:]) ** 2
+    while (len(cent_list) < k):
+        lowest_sse = inf
+        for i in range(len(cent_list)):
+            pts_in_curr_cluster = data_set[nonzero(cluster_assment[:,0].A==i)[0],:]
+            centroid_mat,split_clust_ass = k_means(pts_in_curr_cluster, 2, dist_meas)
+            sse_split = sum(split_clust_ass[:,1])
+            sse_not_split = sum(cluster_assment[nonzero(cluster_assment[:,0].A!=i)[0],1])
+            if (sse_split + sse_not_split) < lowest_sse:
+                best_cent_to_split = i
+                best_new_cents = centroid_mat
+                best_clust_ass = split_clust_ass.copy()
+                lowest_sse = sse_split + sse_not_split
+        best_clust_ass[nonzero(best_clust_ass[:, 0].A == 1)[0], 0] = len(cent_list)
+        best_clust_ass[nonzero(best_clust_ass[:, 0].A == 0)[0], 0] = best_cent_to_split
+        cent_list[best_cent_to_split] = best_new_cents[0,:].tolist()[0]
+        cent_list.append(best_new_cents[1,:].tolist()[0])
+        cluster_assment[nonzero(cluster_assment[:,0].A==best_cent_to_split)[0],:] = best_clust_ass
+    return mat(cent_list), cluster_assment
+
+
+datamat = mat(loadDataSet("testSet2.txt"))
+cen, clu = bi_kmeans(datamat, 3)
 print cen
-print clu
