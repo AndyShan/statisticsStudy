@@ -12,10 +12,12 @@
 - [logistic回归](https://github.com/AndyShan/statisticsStudy/tree/master/logistic_regression)
 - [支持向量机(SVM)](https://github.com/AndyShan/statisticsStudy/tree/master/svm)
 - [k均值聚类(k_means)](https://github.com/AndyShan/statisticsStudy/tree/master/k_means)
+
 # 实例
 - [k近邻改进约会网站配对效果](https://github.com/AndyShan/statisticsStudy/tree/master/demo/datingTest)
 - [k近邻识别手写数字](https://github.com/AndyShan/statisticsStudy/tree/master/demo/handwritingDigitTest)
 - [朴素贝叶斯过滤垃圾邮件](https://github.com/AndyShan/statisticsStudy/tree/master/demo/emailBayes)
 - [从疝气病预测病马的死亡率](https://github.com/AndyShan/statisticsStudy/tree/master/demo/horse_Colic)
+
 # 博客
 - [csdn博客地址](http://blog.csdn.net/Andy_Shan/article/category/6396151)
